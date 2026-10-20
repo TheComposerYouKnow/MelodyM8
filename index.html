@@ -4,6 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MelodyM8 • A Play of Space and Time</title>
+    <!-- Link previews (WhatsApp, Discord, Reddit, Facebook, X) -->
+    <meta name="description" content="Chess crossed with music. Every piece is an instrument and every square is a note: play a game and hear it as a song.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://melodym8.au/">
+    <meta property="og:site_name" content="MelodyM8">
+    <meta property="og:title" content="MelodyM8 • A Play of Space and Time">
+    <meta property="og:description" content="Chess crossed with music. Every piece is an instrument and every square is a note: play a game and hear it as a song.">
+    <meta property="og:image" content="https://melodym8.au/melodym8-logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#161512">
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chess.js Engine (0.10.3 stable) -->
@@ -2112,6 +2122,15 @@ if (typeof define !== 'undefined')
             padding: 8px;
             overflow-y: auto;
         }
+        /* Phones: never scroll sideways, hide scrollbars on the swipeable tab row,
+           and use 16px text in fields so phones don't zoom in when you type */
+        html, body { overflow-x: hidden; max-width: 100%; }
+        .no-scrollbar { scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        @media (max-width: 640px) {
+            input[type="text"], input[type="email"], input[type="password"], input:not([type]), textarea { font-size: 16px !important; }
+        }
+
         /* Simple mode hides the advanced controls (nothing is reset, just hidden) */
         body.simple-mode .adv-only { display: none !important; }
 
@@ -2203,46 +2222,46 @@ if (typeof define !== 'undefined')
 <body class="min-h-screen flex flex-col justify-between">
 
     <!-- TOP NAVIGATION BAR (MelodyM8 Take 7_2_3 Modes) -->
-    <header class="h-12 bg-[#161512] border-b border-[#262421] px-2 sm:px-5 flex items-center justify-between shrink-0 z-30">
-        <div class="flex items-center space-x-3 sm:space-x-5">
+    <header class="min-h-12 lg:h-12 bg-[#161512] border-b border-[#262421] px-2 sm:px-5 py-1 lg:py-0 flex flex-wrap lg:flex-nowrap items-center justify-between gap-y-1 shrink-0 z-30">
+        <div class="contents lg:flex items-center lg:space-x-5">
             <!-- Brand -->
-            <a href="#" onclick="switchAppMode('play'); return false;" class="flex items-center space-x-2 group">
+            <a href="#" onclick="switchAppMode('play'); return false;" class="order-1 lg:order-none flex items-center space-x-2 group shrink-0">
                 <i class="fa-solid fa-chess-knight text-[#3692e7] text-lg group-hover:scale-110 transition-transform"></i>
                 <span class="text-xl sm:text-2xl font-semibold tracking-tight text-white group-hover:text-[#3692e7] transition-colors">
                     Melody<span class="text-[#d59120] font-bold">M8</span>
                 </span>
-                <span class="bg-[#262421] border border-[#383530] text-[#d59120] text-[10px] font-mono-code uppercase px-1.5 py-0.5 rounded font-bold tracking-wider">
+                <span class="hidden sm:inline bg-[#262421] border border-[#383530] text-[#d59120] text-[10px] font-mono-code uppercase px-1.5 py-0.5 rounded font-bold tracking-wider">
                     TAKE 7_2_3
                 </span>
             </a>
 
             <!-- Main Mode Tabs -->
-            <nav class="flex items-center space-x-1 bg-[#1f1e1b] p-1 rounded border border-[#2e2c28] text-xs font-semibold">
-                <button id="navTabPlay" onclick="switchAppMode('play')" class="px-2.5 py-1 rounded bg-[#3692e7] text-white transition flex items-center gap-1.5">
+            <nav id="mainTabs" class="order-3 lg:order-none w-full lg:w-auto flex items-center gap-1 bg-[#1f1e1b] p-1 rounded border border-[#2e2c28] text-xs font-semibold overflow-x-auto no-scrollbar whitespace-nowrap">
+                <button id="navTabPlay" onclick="switchAppMode('play')" class="shrink-0 px-2.5 py-1.5 lg:py-1 rounded bg-[#3692e7] text-white transition flex items-center gap-1.5">
                     <i class="fa-solid fa-chess-knight text-[11px]"></i>
                     <span>Play</span>
                 </button>
-                <button id="navTabOnline" onclick="openOnlinePlay()" class="px-2.5 py-1 rounded text-[#bababa] hover:text-white transition flex items-center gap-1.5" title="Play a friend online">
+                <button id="navTabOnline" onclick="openOnlinePlay()" class="shrink-0 px-2.5 py-1.5 lg:py-1 rounded text-[#bababa] hover:text-white transition flex items-center gap-1.5" title="Play a friend online">
                     <i class="fa-solid fa-globe text-[11px] text-[#629924]"></i>
                     <span>Online</span>
                 </button>
-                <button id="navTabSymphony" onclick="switchAppMode('symphony')" class="px-2.5 py-1 rounded text-[#bababa] hover:text-white transition flex items-center gap-1.5">
+                <button id="navTabSymphony" onclick="switchAppMode('symphony')" class="shrink-0 px-2.5 py-1.5 lg:py-1 rounded text-[#bababa] hover:text-white transition flex items-center gap-1.5">
                     <i class="fa-solid fa-music text-[11px] text-[#d59120]"></i>
                     <span class="hidden sm:inline">Checkmate</span> Symphony
                 </button>
-                <button id="navTabEar" onclick="switchAppMode('ear')" class="px-2.5 py-1 rounded text-[#bababa] hover:text-white transition flex items-center gap-1.5">
+                <button id="navTabEar" onclick="switchAppMode('ear')" class="shrink-0 px-2.5 py-1.5 lg:py-1 rounded text-[#bababa] hover:text-white transition flex items-center gap-1.5">
                     <i class="fa-solid fa-headphones-simple text-[11px] text-[#629924]"></i>
                     <span>Ear Training</span>
                 </button>
-                <button id="navTabPaint" onclick="switchAppMode('paint')" class="px-2.5 py-1 rounded text-[#bababa] hover:text-white transition flex items-center gap-1.5" title="Paint M8: tap the board to make music">
+                <button id="navTabPaint" onclick="switchAppMode('paint')" class="shrink-0 px-2.5 py-1.5 lg:py-1 rounded text-[#bababa] hover:text-white transition flex items-center gap-1.5" title="Paint M8: tap the board to make music">
                     <i class="fa-solid fa-palette text-[11px] text-[#d59120]"></i>
                     <span>Paint M8</span>
                 </button>
-                <button id="navTabAnalysis" onclick="switchAppMode('analysis')" class="adv-only px-2.5 py-1 rounded text-[#bababa] hover:text-white transition flex items-center gap-1.5">
+                <button id="navTabAnalysis" onclick="switchAppMode('analysis')" class="adv-only shrink-0 px-2.5 py-1.5 lg:py-1 rounded text-[#bababa] hover:text-white transition flex items-center gap-1.5">
                     <i class="fa-solid fa-microscope text-[11px] text-[#9b59b6]"></i>
                     <span class="hidden md:inline">Analysis</span>
                 </button>
-                <button id="navTabEditor" onclick="switchAppMode('editor')" class="adv-only px-2.5 py-1 rounded text-[#bababa] hover:text-white transition flex items-center gap-1.5">
+                <button id="navTabEditor" onclick="switchAppMode('editor')" class="adv-only shrink-0 px-2.5 py-1.5 lg:py-1 rounded text-[#bababa] hover:text-white transition flex items-center gap-1.5">
                     <i class="fa-solid fa-pen-ruler text-[11px]"></i>
                     <span class="hidden md:inline">Board Editor</span>
                 </button>
@@ -2250,7 +2269,7 @@ if (typeof define !== 'undefined')
         </div>
 
         <!-- Right Quick Audio & Utility Controls -->
-        <div class="flex items-center space-x-2">
+        <div class="order-2 lg:order-none flex items-center gap-1 sm:gap-2 shrink-0">
             <button onclick="toggleInstrumentsModal()" class="bg-[#262421] hover:bg-[#32302c] text-[#bababa] hover:text-white text-xs px-2.5 py-1.5 rounded flex items-center gap-1.5 border border-[#34312d] transition" title="Piece Voices & Gestures Reference">
                 <i class="fa-solid fa-guitar text-[#d59120]"></i>
                 <span class="hidden lg:inline">12 Voices</span>
@@ -2278,7 +2297,7 @@ if (typeof define !== 'undefined')
     </header>
 
     <!-- TOAST NOTIFICATION BANNER -->
-    <div id="toastContainer" class="fixed top-14 right-4 z-50 flex flex-col gap-2 pointer-events-none"></div>
+    <div id="toastContainer" class="fixed bottom-4 lg:bottom-auto lg:top-14 left-2 right-2 sm:left-auto sm:right-4 z-50 flex flex-col items-end gap-2 pointer-events-none"></div>
 
     <!-- MAIN 3-COLUMN WORKSPACE -->
     <main class="flex-1 max-w-[1520px] w-full mx-auto px-2 sm:px-4 py-2 grid grid-cols-1 lg:grid-cols-12 gap-3 items-start">
@@ -2527,6 +2546,9 @@ if (typeof define !== 'undefined')
                 </button>
             </div>
 
+            <!-- Phones: the player bars (names, captures, clocks) move here, right above and below the board -->
+            <div id="mobileTopBarSlot" class="w-full max-w-[600px] rounded overflow-hidden"></div>
+
             <!-- STRICT 1:1 SQUARE BOARD WRAPPER -->
             <div class="board-aspect-box" id="boardWrapper" oncontextmenu="return false;">
                 <!-- 8x8 Chessboard Grid -->
@@ -2572,6 +2594,8 @@ if (typeof define !== 'undefined')
                     </div>
                 </div>
             </div>
+
+            <div id="mobileBottomBarSlot" class="w-full max-w-[600px] rounded overflow-hidden"></div>
 
             <!-- Board Editor Bottom Palette (White Pieces - Shown only in Editor Mode) -->
             <div id="editorBottomPalette" class="hidden w-full max-w-[600px] bg-[#262421] border border-[#34312d] rounded p-1.5 items-center justify-between gap-1">
@@ -2710,7 +2734,7 @@ if (typeof define !== 'undefined')
                 </div>
 
                     <!-- Top Player Bar + Digital Clock -->
-                <div class="px-3 py-2 bg-[#1f1e1b] border-b border-[#32302c] flex items-center justify-between">
+                <div id="topPlayerBar" class="px-3 py-2 bg-[#1f1e1b] border-b border-[#32302c] flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <span id="topPlayerDot" class="w-2.5 h-2.5 rounded-full bg-[#787672]"></span>
                         <div>
@@ -2727,7 +2751,7 @@ if (typeof define !== 'undefined')
                 </div>
 
                 <!-- Tappable Move History Table -->
-                <div id="moveListContainer" class="h-56 overflow-y-auto divide-y divide-[#2d2b27]/40 text-xs font-medium bg-[#262421]"></div>
+                <div id="moveListContainer" class="h-40 sm:h-56 overflow-y-auto divide-y divide-[#2d2b27]/40 text-xs font-medium bg-[#262421]"></div>
 
                 <!-- AI Reply Countdown Progress Bar (Shown when AI Delay > 0s) -->
                 <div id="aiDelayProgressWrapper" class="hidden bg-[#161512] border-t border-[#32302c] px-3 py-1">
@@ -2779,7 +2803,7 @@ if (typeof define !== 'undefined')
                 </div>
 
                 <!-- Bottom Player Bar + Digital Clock -->
-                <div class="px-3 py-2 bg-[#1f1e1b] border-t border-[#32302c] flex items-center justify-between">
+                <div id="bottomPlayerBar" class="px-3 py-2 bg-[#1f1e1b] border-t border-[#32302c] flex items-center justify-between">
                     <div class="flex items-center gap-2">
                         <span id="bottomPlayerDot" class="w-2.5 h-2.5 rounded-full bg-[#629924]"></span>
                         <div>
@@ -6898,11 +6922,13 @@ if (typeof define !== 'undefined')
             Object.entries(tabs).forEach(([m, id]) => {
                 const btn = document.getElementById(id);
                 if (!btn) return;
-                if (m === mode) {
-                    btn.className = 'px-2.5 py-1 rounded bg-[#3692e7] text-white transition flex items-center gap-1.5';
-                } else {
-                    btn.className = 'px-2.5 py-1 rounded text-[#bababa] hover:text-white transition flex items-center gap-1.5';
-                }
+                // Toggle only the colours, so classes like adv-only (Simple mode) and shrink-0 (phone tabs) survive
+                const active = m === mode;
+                btn.classList.toggle('bg-[#3692e7]', active);
+                btn.classList.toggle('text-white', active);
+                btn.classList.toggle('text-[#bababa]', !active);
+                btn.classList.toggle('hover:text-white', !active);
+                if (active && btn.scrollIntoView && window.innerWidth < 1024) btn.scrollIntoView({ block: 'nearest', inline: 'nearest' });
             });
 
             if (mode !== 'paint' && paintPlaying) stopPaintSong();
@@ -6939,6 +6965,7 @@ if (typeof define !== 'undefined')
 
             renderBoard();
             updateSoundOnlyConsole();
+            placePlayerBars();
         }
 
         function openPromotionSelector(from, to, color) {
@@ -8865,6 +8892,31 @@ if (typeof define !== 'undefined')
             setTimeout(() => { box.style.outline = ''; }, 1500);
         }
 
+        // Phones: show the player bars (names, captured pieces, clocks) right above and below the board
+        function placePlayerBars() {
+            const top = document.getElementById('topPlayerBar');
+            const bot = document.getElementById('bottomPlayerBar');
+            const topSlot = document.getElementById('mobileTopBarSlot');
+            const botSlot = document.getElementById('mobileBottomBarSlot');
+            if (!top || !bot || !topSlot || !botSlot) return;
+            if (!top._home) {
+                top._home = { parent: top.parentNode, next: top.nextElementSibling };
+                bot._home = { parent: bot.parentNode, next: bot.nextElementSibling };
+            }
+            const mobile = window.innerWidth < 1024;
+            if (mobile) {
+                if (top.parentNode !== topSlot) topSlot.appendChild(top);
+                if (bot.parentNode !== botSlot) botSlot.appendChild(bot);
+            } else {
+                if (top.parentNode !== top._home.parent) top._home.parent.insertBefore(top, top._home.next);
+                if (bot.parentNode !== bot._home.parent) bot._home.parent.insertBefore(bot, bot._home.next);
+            }
+            const show = mobile && currentAppMode === 'play';
+            topSlot.classList.toggle('hidden', !show);
+            botSlot.classList.toggle('hidden', !show);
+        }
+        window.addEventListener('resize', () => placePlayerBars());
+
         async function initOnline() {
             try { const s = storageGet(SESSION_KEY); if (s) onlineSession = JSON.parse(s); } catch (e) { onlineSession = null; }
             const joinParam = normalizeGameCode(new URLSearchParams(location.search).get('join'));
@@ -9265,6 +9317,7 @@ if (typeof define !== 'undefined')
             initOnline();
             initAssistMode();
             renderPaintPanel();
+            placePlayerBars();
             renderBoard();
             renderMoveListTable();
         };
